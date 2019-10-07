@@ -1,0 +1,19 @@
+version: "2"
+services:
+  postgres-it:
+    depends_on:
+      - mysql-it
+    image: postgres:11.1
+    environment:
+      - POSTGRES_USER=pgittestusr
+      - POSTGRES_PASSWORD=pgittestpwd
+      - POSTGRES_DB=pgittestdb
+    restart: always
+  mysql-it:
+    image: mysql:5.7.22
+    environment:
+      - MYSQL_USER=mysqlittestuser
+      - MYSQL_ROOT_PASSWORD=mysqlittestpwd
+      - MYSQL_PASSWORD=mysqlittestpwd
+      - MYSQL_DATABASE=mysqlitttestdb
+    restart: always
