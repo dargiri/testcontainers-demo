@@ -5,8 +5,8 @@ services:
       - mysql-it
     image: postgres:11.1
     environment:
-      - POSTGRES_USER=pgittestusr
-      - POSTGRES_PASSWORD=pgittestpwd
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Password1
       - POSTGRES_DB=pgittestdb
     restart: always
   mysql-it:

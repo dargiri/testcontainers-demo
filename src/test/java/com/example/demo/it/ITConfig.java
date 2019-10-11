@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.Driver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
@@ -17,26 +18,31 @@ import javax.sql.DataSource;
 public class ITConfig {
 
     @Bean
-    public DockerComposeConfig dockerComposeConfig() {
-        return new DockerComposeConfig();
-    }
-
-    @Bean
     public DockerComposeContainerWrapper dockerComposeContainerWrapper() {
         return new DockerComposeContainerWrapper();
     }
 
     @Bean
     public DataSource dataSource(DockerComposeContainerWrapper dockerComposeContainerWrapper,
-                                 DockerComposeConfig dockerComposeConfig) {
-        Pair<String, Integer> pgDbContainer = dockerComposeContainerWrapper.getPgDbContainer();
+                                 @Value("${pg.urlTemplate}") String pgUrlTemplate,
+                                 @Value("${spring.datasource.username}") String username,
+                                 @Value("${spring.datasource.password}") String password
+    ) {
+        final Pair<String, Integer> pgDbContainer = dockerComposeContainerWrapper.getPgDbContainer();
+
+        final String host = pgDbContainer.getFirst();
+        final Integer port = pgDbContainer.getSecond();
+        final String jdbcUrl = String.format(pgUrlTemplate, host, port);
+        String postgresDriverClassName = Driver.class.getCanonicalName();
+
+        log.info("Creating datasource for accessing {}", jdbcUrl);
 
         HikariConfig dsConfig = new HikariConfig();
 
-        dsConfig.setJdbcUrl(dockerComposeConfig.toPgJdbcUrl(pgDbContainer.getFirst(),pgDbContainer.getSecond()));
-        dsConfig.setUsername(dockerComposeConfig.getPgUsername());
-        dsConfig.setPassword(dockerComposeConfig.getPgPassword());
-        dsConfig.setDriverClassName(Driver.class.getCanonicalName());
+        dsConfig.setJdbcUrl(jdbcUrl);
+        dsConfig.setUsername(username);
+        dsConfig.setPassword(password);
+        dsConfig.setDriverClassName(postgresDriverClassName);
 
         return new HikariDataSource(dsConfig);
     }
