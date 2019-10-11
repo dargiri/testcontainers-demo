@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.entity.Player;
+import com.example.demo.it.AbstractIT;
 import com.example.demo.repository.PlayerRepository;
 import org.junit.Test;
 
