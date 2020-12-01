@@ -7,5 +7,5 @@ To run app:
 To run all tests(including DB tests):
 1. From console run: ./mvnw clean verify
 
-From IDE:
+From IDE:dass
 N/A native support.
