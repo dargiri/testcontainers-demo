@@ -5,7 +5,7 @@ To run app:
 2. Run DemoApplication class from IDE as main class.
 
 To run all tests(including DB tests):
-1. From console run: ./mvnw clean verify
+1. From console run: ./mvnw clean verifysdadads
 
 From IDE:
 N/A native support.
