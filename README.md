@@ -4,7 +4,7 @@ To run app:
 1. Run from console docker-compose up from project directory
 2. Run DemoApplication class from IDE as main class.
 
-To run all tests(including DB tests):
+To run all tests(including DB tests):adad
 1. From console run: ./mvnw clean verify
 
 From IDE:
