@@ -8,4 +8,4 @@ To run all tests(including DB tests):
 1. From console run: ./mvnw clean verify
 
 From IDE:
-N/A native support.
+N/A native support.addd
